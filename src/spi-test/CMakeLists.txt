@@ -1,0 +1,2 @@
+add_executable_avr(spi_test spi_test.cpp)
+target_link_libraries(spi_test tinySPI)

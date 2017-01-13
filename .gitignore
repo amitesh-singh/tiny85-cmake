@@ -1,0 +1,9 @@
+*.a
+*.hex
+*.elf
+*.eep
+build/
+Makefile
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake

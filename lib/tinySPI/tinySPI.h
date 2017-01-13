@@ -30,6 +30,16 @@
 #define USCK_DD_PIN DDB2
 #define DO_DD_PIN DDB1
 #define DI_DD_PIN DDB0
+#elif defined(__AVR_ATtiny461__) || defined(__AVR_ATtiny861__)
+#define SPI_DDR_PORT DDRB
+#define USCK_DD_PIN DDB2
+#define DO_DD_PIN DDB1
+#define DI_DD_PIN DDB0
+#elif defined(__AVR_ATtiny2313__) || defined(__AVR_ATtiny4313__)
+#define SPI_DDR_PORT DDRB
+#define USCK_DD_PIN DDB7
+#define DO_DD_PIN DDB6
+#define DI_DD_PIN DDB5
 #endif
 
 //SPI data modes

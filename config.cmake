@@ -1,5 +1,5 @@
 set(MCU attiny85)
-set(F_CPU 16000000UL)
+set(F_CPU 8000000UL)
 set(BAUD 115200UL)
 
 # set the programmer and the device to use (default is to use simavr)

@@ -1,0 +1,1 @@
+add_library(tinySPI tinySPI.h tinySPI.cpp)

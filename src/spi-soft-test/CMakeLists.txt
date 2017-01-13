@@ -1,0 +1,2 @@
+add_executable_avr(spi_soft_test spi_soft_test.cpp)
+target_link_libraries(spi_soft_test spiSoft)

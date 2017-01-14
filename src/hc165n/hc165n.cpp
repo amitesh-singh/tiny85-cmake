@@ -17,36 +17,30 @@
 #define SS_PIN PB4 //or LATCH_PIN or select slave
 int main()
 {
+    uint8_t buttonVal = 0;
+
     SPI.begin();
     DDRB |= (1 << SS_PIN);
+    DDRB |= (1 << PB3);
+    PORTB &= ~(1 << PB3);
     PORTB |= (1 << SS_PIN); //set latch pin low when transferring data
-
+   // PORTB |= (1 << PB3);
     // The transfer order is LSB Q0 -- Q7
     while (1)
     {
+     
         PORTB &= ~(1 << SS_PIN);
         //trasfer 1 byte
-        SPI.transfer(0b00000001);
+        buttonVal = SPI.transfer(0);
         PORTB |= (1 << SS_PIN);
+        
+        if (buttonVal == 1)
+            PORTB &= ~(1 << PB3);
+        else
+            PORTB |= (1 << PB3);
 
-        _delay_ms(100);
-        PORTB &= ~(1 << SS_PIN);
-        //trasfer 1 byte
-        SPI.transfer(0);
-        PORTB |= (1 << SS_PIN);
-        _delay_ms(200);
-
-        PORTB &= ~(1 << SS_PIN);
-        //trasfer 1 byte
-        SPI.transfer(0b00000001);
-        PORTB |= (1 << SS_PIN);
-        _delay_ms(300);
-
-        PORTB &= ~(1 << SS_PIN);
-        //trasfer 1 byte
-        SPI.transfer(0);
-        PORTB |= (1 << SS_PIN);
-        _delay_ms(600);
+        _delay_ms(10);
+     
     }
     return 0;
 }

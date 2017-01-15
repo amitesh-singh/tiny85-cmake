@@ -22,19 +22,24 @@ int main()
     SPI.begin();
     DDRB |= (1 << SS_PIN);
     DDRB |= (1 << PB3);
-    PORTB &= ~(1 << PB3);
+    //PORTB &= ~(1 << PB3);
     PORTB |= (1 << SS_PIN); //set latch pin low when transferring data
-   // PORTB |= (1 << PB3);
+    PORTB |= (1 << PB3);
     // The transfer order is LSB Q0 -- Q7
+    _delay_ms(1000);
+    PORTB  &= ~(1 << PB3);
+    _delay_ms(1000);
+
     while (1)
     {
      
         PORTB &= ~(1 << SS_PIN);
+        PORTB |= (1 << SS_PIN);
         //trasfer 1 byte
         buttonVal = SPI.transfer(0);
-        PORTB |= (1 << SS_PIN);
         
-        if (buttonVal == 1)
+        
+        if (buttonVal >= 1)
             PORTB &= ~(1 << PB3);
         else
             PORTB |= (1 << PB3);

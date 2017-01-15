@@ -120,7 +120,7 @@ uint8_t spiSoft::shiftInOut(uint8_t byteout, uint8_t dataInPin)
        *_portReg &= ~(1 << _clockPin);
 
    }
-       return bytein;
+    return bytein;
 
 }
 void spiSoft::end()

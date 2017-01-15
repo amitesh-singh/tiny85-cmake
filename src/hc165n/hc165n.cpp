@@ -32,19 +32,18 @@ int main()
 
     while (1)
     {
-     
         PORTB &= ~(1 << SS_PIN);
         PORTB |= (1 << SS_PIN);
         //trasfer 1 byte
         buttonVal = SPI.transfer(0);
-        
-        
-        if (buttonVal >= 1)
+               
+        //if (buttonVal == 1 || buttonVal == 2 || buttonVal == 4 )
+        if (buttonVal == 2 || buttonVal == 4)
             PORTB &= ~(1 << PB3);
         else
             PORTB |= (1 << PB3);
 
-        _delay_ms(10);
+       // _delay_ms(10);
      
     }
     return 0;

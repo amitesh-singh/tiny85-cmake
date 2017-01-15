@@ -38,12 +38,9 @@ int main()
         PORTB &= ~(1 << LATCH);
         PORTB |= (1 << LATCH);
         //trasfer 1 byte
-        SPI.shiftOut(0);
+        data = SPI.shiftInOut(0, PB0);
         _delay_ms(100);
-        PORTB &= ~(1 << LATCH);
-        PORTB |= (1 << LATCH);
-        SPI.shiftIn(data);
-         
+        
         if (data >= 1)
             PORTB &= ~(1 << PB3);
         else

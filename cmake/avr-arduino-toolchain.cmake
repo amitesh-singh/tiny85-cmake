@@ -21,7 +21,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.0)
+#cmake_minimum_required(VERSION 3.0)
 
 # find compiler and toolchain programs
 find_program(AVRCPP avr-g++)
@@ -68,7 +68,7 @@ endif ()
 
 set(COMPILER_FLAGS "-Os -Wall -Wno-unknown-pragmas -Wextra -MMD -mmcu=${MCU}" CACHE STRING "")
 set(CMAKE_C_FLAGS "${COMPILER_FLAGS} -std=gnu99 -mcall-prologues -ffunction-sections -fdata-sections" CACHE STRING "")
-set(CMAKE_CXX_FLAGS "${COMPILER_FLAGS} -fdiagnostics-color -std=c++0x -felide-constructors -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics" CACHE STRING "")
+set(CMAKE_CXX_FLAGS "${COMPILER_FLAGS}  -std=c++0x -felide-constructors -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics" CACHE STRING "")
 set(CMAKE_ASM_FLAGS "-x assembler-with-cpp ${COMPILER_FLAGS} " CACHE STRING "")
 #set(CMAKE_EXE_LINKER_FLAGS "-Wl,--relax -Wl,--gc-sections -Wl,-u,vfscanf -lscanf_min -Wl,-u,vfprintf -lprintf_min ${EXTRA_LIBS}" CACHE STRING "")
 #ami: Note: This reduces the size a bit (4-5 kb)

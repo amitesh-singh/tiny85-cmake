@@ -18,6 +18,7 @@
  */
 
 #include "spiSoft.h"
+#include <util/delay.h>
 
 void spiSoft::begin(volatile uint8_t *dirReg, volatile uint8_t *portReg, volatile uint8_t *pinReg,
  uint8_t dpin, uint8_t cpin)
@@ -72,6 +73,7 @@ void spiSoft::shiftOut(uint8_t data, uint8_t bitorder)
 
 void spiSoft::shiftIn(uint8_t &data, uint8_t bitorder)
 {
+    *_portReg &= ~(1 << _clockPin); // make latch pin go low;
     uint8_t i = 0;
     uint8_t currentByte = 0;
 
@@ -92,6 +94,35 @@ void spiSoft::shiftIn(uint8_t &data, uint8_t bitorder)
     data = currentByte;
 }
 
+uint8_t spiSoft::shiftInOut(uint8_t byteout, uint8_t dataInPin)
+{
+    uint8_t bytein = 0;
+    uint8_t bit;
+
+   for (bit = 0; bit < 8; ++bit)
+   {
+       if (byteout & 0x01)
+       {
+           *_portReg |= (1 << _dataPin);  
+       }
+       else
+           *_portReg &= ~(1 << _dataPin);
+
+       _delay_ms(1);
+       byteout >>= 1;
+          //pulse clock pin 
+       *_portReg |= (1 << _clockPin);
+       if (*_pinReg & (1 << dataInPin))
+         bytein |= 0x01 << bit;
+       //bytein <<= 1;
+       _delay_ms(1);
+
+       *_portReg &= ~(1 << _clockPin);
+
+   }
+       return bytein;
+
+}
 void spiSoft::end()
 {
     *_portReg &= ~((1 << _dataPin) | (1 << _clockPin));

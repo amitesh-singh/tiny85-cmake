@@ -1,7 +1,7 @@
 #=====================================================================================
 # ubirch #1 cmake
 #=====================================================================================
-cmake_minimum_required(VERSION 3.0)
+#cmake_minimum_required(VERSION 3.0)
 
 #this is the place where you can set configuration options
 set(CMAKE_TOOLCHAIN_FILE cmake/avr-arduino-toolchain.cmake)

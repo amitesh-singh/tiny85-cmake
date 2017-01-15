@@ -29,10 +29,12 @@ class spiSoft
     volatile uint8_t *_pinReg;
 
     uint8_t  _dataPin, _clockPin; // _latchpin
+    //uint8_t _dataInPin;
     public:
     void                begin(volatile uint8_t *dirReg, volatile uint8_t *portReg, volatile uint8_t *pinReg, uint8_t dpin, uint8_t cpin);
     void                shiftOut(uint8_t data, uint8_t bitorder = 0); // 0 - lsb, 1 - msb
     void                shiftIn(uint8_t &data, uint8_t bitorder = 0); // 0 - lsb, 1 - msb
+    uint8_t             shiftInOut(uint8_t data, uint8_t dataInPin);
     void                end(); 
 };
 #endif

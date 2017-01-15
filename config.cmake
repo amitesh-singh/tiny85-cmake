@@ -1,3 +1,5 @@
+#SET(CMAKE_SYSTEM_NAME Generic)
+
 set(MCU attiny85)
 set(F_CPU 8000000UL)
 set(BAUD 115200UL)

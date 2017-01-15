@@ -1,0 +1,2 @@
+add_executable_avr(hc165n_soft hc165n.cpp)
+target_link_libraries(hc165n_soft spiSoft)

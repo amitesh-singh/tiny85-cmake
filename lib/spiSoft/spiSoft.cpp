@@ -31,15 +31,15 @@ void spiSoft::begin(volatile uint8_t *dirReg, volatile uint8_t *portReg, volatil
     _clockPin = cpin;
 
     //set dpin and cpin as OUTPUT
-    *_dirReg |= (1 << dpin) | (1 << cpin); //| (1 << lpin);
+     //| (1 << lpin);
 
     //*_portReg |= (1 << lpin);
 }
 
 void spiSoft::shiftOut(uint8_t data, uint8_t bitorder)
 {
+    *_dirReg |= (1 << _dataPin) | (1 << _clockPin);
     uint8_t i = 0;
-
     *_portReg &= ~(1 << _clockPin);
     //make latch pin go low
     // don't handle latchpin at library side. it gives flexibility at userside.
@@ -66,6 +66,7 @@ void spiSoft::shiftOut(uint8_t data, uint8_t bitorder)
         }
         //pulse clock pin 
        *_portReg |= (1 << _clockPin);
+       _delay_us(5);
        *_portReg &= ~(1 << _clockPin);
     }
     //*_portReg |= (1 << _latchPin);
@@ -73,22 +74,27 @@ void spiSoft::shiftOut(uint8_t data, uint8_t bitorder)
 
 void spiSoft::shiftIn(uint8_t &data, uint8_t bitorder)
 {
+    *_dirReg |= (1 << _clockPin);
+    *_dirReg &= ~(1 << _dataPin);
+
     *_portReg &= ~(1 << _clockPin); // make latch pin go low;
+    *_portReg &= ~(1 << _dataPin);
     uint8_t i = 0;
     uint8_t currentByte = 0;
 
     for (; i < 8; ++i)
     {
-        *_portReg |= (1 << _clockPin);
         // LSB
         if (bitorder == 0)
         {
-            currentByte |= ((*_pinReg) & (1 << _dataPin)) << i;
+            currentByte |= (((*_pinReg) & (1 << _dataPin)) >> _dataPin) << i;
         }
         else if (bitorder == 1)
         {
-            currentByte |= ((*_pinReg) & (1 << _dataPin)) << (7 - i);
+            currentByte |= (((*_pinReg) & (1 << _dataPin))  >> _dataPin )<< (7 - i);
         }
+         *_portReg |= (1 << _clockPin);
+         _delay_us(5);
         *_portReg &= ~(1 << _clockPin);
     }
     data = currentByte;
@@ -102,9 +108,7 @@ uint8_t spiSoft::shiftInOut(uint8_t byteout, uint8_t dataInPin)
    for (bit = 0; bit < 8; ++bit)
    {
        if (byteout & 0x01)
-       {
-           *_portReg |= (1 << _dataPin);  
-       }
+           *_portReg |= (1 << _dataPin);
        else
            *_portReg &= ~(1 << _dataPin);
 

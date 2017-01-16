@@ -25,7 +25,8 @@ int main()
     DDRB |= (1 << LATCH);
     DDRB |= (1 << PB3);
     PORTB &= ~(1 << PB3);
-    PORTB |= (1 << LATCH); //set latch pin HIGH when transferring data
+    PORTB &= ~(1 << LATCH); 
+    
     PORTB |= (1 << PB3);
     // The transfer order is LSB Q0 -- Q7
     _delay_ms(1000);
@@ -34,20 +35,19 @@ int main()
     uint8_t data;
     while (1)
     {
-        _delay_ms(100);
         PORTB &= ~(1 << LATCH);
-        PORTB |= (1 << LATCH);
+        _delay_us(5);
+        PORTB |= (1 << LATCH); //set latch pin HIGH when transferring data
         //trasfer 1 byte
-        data = SPI.shiftInOut(0, PB0);
-        _delay_ms(100);
+        SPI.shiftIn(data, 1);
         
-        if (data >= 1)
+        //if (data == 0b10000000) => use this when SPI.shiftIn(data, 0)
+        if (data == 0b00000001)
             PORTB &= ~(1 << PB3);
         else
             PORTB |= (1 << PB3);
 
         _delay_ms(10);
-     
     }
     return 0;
 }
